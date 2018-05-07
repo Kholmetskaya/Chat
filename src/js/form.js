@@ -1,14 +1,20 @@
 (function () {
     var form = document.querySelector('.register');
     var formLogin = document.querySelector('.login');
+
     registration();
     login();
+
  // инициализируем юзера
  function init() {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         var userName = document.querySelector("#user_name");
         userName.textContent = "Добро пожаловать, " + user.displayName;
+      //  console.log(Object.keys(user)) 
+      //   localStorage.setItem("login",user.email)
+      //   console.log(localStorage.getItem("login",user.email))
+
       }
     });
   }
@@ -46,7 +52,7 @@ function change(){
         displayName: name
       }).then(function () {
         init();
-        return change();
+        change();
       });
     }).catch(function (err) {
       errors.innerHTML = err.message;
@@ -72,7 +78,7 @@ function registration() {
       if (password !== passwordConfirmation) {
         var error = generateError('Пароли не совпадают');
       } 
-      if (password.lenght <=6) {
+      else if  (password.lenght <=6) {
         var error = generateError('Пароль дожен быть больше 6 знаков');
       }
       else {
